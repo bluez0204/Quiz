@@ -1,0 +1,38 @@
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+ 
+}
+
+
+
+.container{
+    background: rgb(255, 244, 193);
+    padding-bottom: 30px;
+}
+
+.container h1{
+    padding-top:20px;
+    margin-top:30px;
+}
+
+.answers label{
+    display: block;
+}
+
+.question{
+    font-weight: 600;
+}
+
+.categories{
+    float: right;
+    font-weight: bold;
+    font-family: cursive;
+}
+
+#timer{
+    float: right;
+    font-weight: 400;
+    
+}
