@@ -1,79 +1,7 @@
-//gr8 work
 (function(){
-var questions=[{
-    question:'Which built-in method removes the last element from an array and returns that element?',
-    options:{
-        a:'last()',
-        b:'get()',
-        c:'pop()',
-        d:'None Of the Above'
-    },
-    answer:'c',
-    marksForRightAttempt:3,
-    marksForWrongAttempt:-2,
-    difficulty:'Easy',
-    topicName:'Array'
-},
 
-{
-    question:' Which of the following function of Number object formats a number with a specific number of digits to the right of the decimal?',
-    options:{
-        a:'toExponential()',
-        b:'toPrecision()',
-        c:'toLocaleString()',
-        d:'toFixed()'
-    },
-    answer:'d',
-    marksForRightAttempt:2,
-    marksForWrongAttempt:-1,
-    difficulty:'Medium',
-    topicName:'Number'
-},
 
-{
-    question:'Which of the following function of String object combines the text of two strings and returns a new string?',
-    options:{
-        a:'add()',
-        b:'concat()',
-        c:'merge()',
-        d:'append()'
-    },
-    answer:'b',
-    marksForRightAttempt:3,
-    marksForWrongAttempt:-1,
-    difficulty:'Medium',
-    topicName:'String'
-},
-{
-    question:'Which of the following function of Array object returns a string representing the array and its elements?',
-    options:{
-        a:'toSource()',
-        b:'sort()',
-        c:'splice()',
-        d:'toString()'
-    },
-    answer:'d',
-    marksForRightAttempt:2,
-    marksForWrongAttempt:0,
-    difficulty:'Easy',
-    topicName:'Array'
-},
-{
-    question:'Which of these are  reserved keyword in JavaScript?',
-    options:{
-        a:'interface',
-        b:' throws',
-        c:'program',
-        d:'while'
-    },
-    answer: 'abd',
-    marksForRightAttempt:4,
-    marksForWrongAttempt:0,
-    difficulty:'Hard',
-    topicName:'Keywords'
-}];
-
-var mins = 1;  //Set the number of minutes you need
+var mins = 10;  //Set the number of minutes you need
 var secs = mins * 60;
 var currentSeconds = 0;
 var currentMinutes = 0;
@@ -95,8 +23,10 @@ function Decrement() {
   
     else{
         alert('Your Test Ended');
+        
         submitButton.disabled=true;
         timerDisplay.style.color='red';
+        showResults();
     }
     if(userSubmittedTheTest==true)
     {
@@ -108,11 +38,11 @@ function Decrement() {
     }
    
 }
-/*
+
 var questions=[{
     question:'Which built-in method removes the last element from an array and returns that element?',
     options:['last()','get()','pop()','None Of the Above'],
-    answer:'pop()',
+    answer:['pop()'],
     marksForRightAttempt:3,
     marksForWrongAttempt:-2,
     difficulty:'Easy',
@@ -122,7 +52,7 @@ var questions=[{
 {
     question:' Which of the following function of Number object formats a number with a specific number of digits to the right of the decimal?',
     options:['toExponential()','toPrecision()','toLocaleString()','toFixed()'],
-    answer:'toFixed()',
+    answer:['toFixed()'],
     marksForRightAttempt:2,
     marksForWrongAttempt:-1,
     difficulty:'Medium',
@@ -132,7 +62,7 @@ var questions=[{
 {
     question:'Which of the following function of String object combines the text of two strings and returns a new string?',
     options:['add()','concat()','merge()','append()'],
-    answer:'concat()',
+    answer:['concat()'],
     marksForRightAttempt:3,
     marksForWrongAttempt:-1,
     difficulty:'Medium',
@@ -141,7 +71,7 @@ var questions=[{
 {
     question:'Which of the following function of Array object returns a string representing the array and its elements?',
     options:['toSource()','sort()','splice()','toString()'],
-    answer:'toString()',
+    answer:['toString()'],
     marksForRightAttempt:2,
     marksForWrongAttempt:0,
     difficulty:'Easy',
@@ -149,13 +79,13 @@ var questions=[{
 },
 {
     question:'Which of these are  reserved keyword in JavaScript?',
-    options:['interface',' throws','program','while'],
+    options:['interface','throws','program','while'],
     answer: ['interface','throws','while'],
     marksForRightAttempt:4,
     marksForWrongAttempt:0,
     difficulty:'Hard',
     topicName:'Keywords'
-}];*/
+}];
 
 
 const quizContainer=document.getElementById('Quiz');
@@ -168,15 +98,16 @@ function buildQuiz(){
     //--------NEW IMPLEMENTATION-------------//
     var n= Object.keys(questions).length;
 
-    var t,i;
+    var t,i;  //for questions
+  
     while(n){
         i = Math.floor(Math.random() * n--);
+    
         t = questions[n];
         questions[n] = questions[i];
-        questions[i] = t;
+        questions[i] = t;     
+        
     }
-     
-    
 
 
 
@@ -187,8 +118,8 @@ function buildQuiz(){
         if(currentQuestion.answer.length==1){
         for(letter in currentQuestion.options){
             answers.push(`<label>
-            <input type="radio" name="question${questionNumber}" value="${letter}">
-            ${letter}:
+            <input type="radio" class='allOptions' name="question${questionNumber}" value="${currentQuestion.options[letter]}">
+            
             ${currentQuestion.options[letter]}
             </label>`);
         }
@@ -197,8 +128,8 @@ function buildQuiz(){
 
             for(letter in currentQuestion.options){
                 answers.push(`<label>
-                <input type="checkbox" name="question${questionNumber}" value="${letter} id="checkboxes">
-                ${letter}:
+                <input type="checkbox"  class='allOptions' name="question${questionNumber}" value="${currentQuestion.options[letter]}" id="checkboxes">
+            
                 ${currentQuestion.options[letter]}
                 </label>`);
 
@@ -214,6 +145,7 @@ function buildQuiz(){
 
 quizContainer.innerHTML=output.join('');
 }
+
 var marksScored=0;
 function showResults(){
 
@@ -222,49 +154,47 @@ function showResults(){
     questions.forEach((currentQuestion,questionNumber)=>{
 
         const answerContainer=answerContainers[questionNumber];
-        const selector=`input[name=question${questionNumber}]:checked`;
-        const userAnswer=(answerContainer.querySelector(selector)||{}).value;
+
         var check=answerContainer.querySelectorAll('input[type="checkbox"]');
+
+        var universalSelector=answerContainer.getElementsByClassName('allOptions');
         
-
-       // var selectCheckbox=document.querySelector('input[type="checkbox"]:checked');
-       
-       if(currentQuestion.answer.length==1){
-
-        if(userAnswer===currentQuestion.answer  ){
-            numCorrect++;
-            answerContainers[questionNumber].style.color='green';
-            marksScored+=currentQuestion.marksForRightAttempt;
-        }
-        else{
-            answerContainers[questionNumber].style.color='red';
-            marksScored+=currentQuestion.marksForWrongAttempt;
-        }
-   }
-      else{
-        var str='';
-        var untilLoop=currentQuestion.options;
-      
-        for(var i=0;i<Object.keys(untilLoop).length;i++){
-           
-       
-            if(check[i].checked==true){
-                str+=check[i].value.slice(0,1);
+      //-----------New Implementation-----------//
+        var userSelectedValue=[];
+        for(let i=0;i<universalSelector.length;i++){
             
+            if(universalSelector[i].checked==true){
+                userSelectedValue.push(universalSelector[i].value);
             }
         }
-        if(str==currentQuestion.answer){
-            numCorrect++;
-            answerContainers[questionNumber].style.color='green';
-            marksScored+=currentQuestion.marksForRightAttempt;
-        }
-        else{
-            answerContainers[questionNumber].style.color='red';
-            marksScored+=currentQuestion.marksForWrongAttempt;
-        }
+    
+    
+
+      
+      
+              
+
+                userSelectedValue.sort();
+                currentQuestion.answer.sort();
+
+                if(JSON.stringify(userSelectedValue)==JSON.stringify(currentQuestion.answer)){
+                    numCorrect++;
+                    answerContainers[questionNumber].style.color='green';
+                    marksScored+=currentQuestion.marksForRightAttempt;
+                }
+                else{
+                   
+                    answerContainers[questionNumber].style.color='red';
+                    marksScored+=currentQuestion.marksForWrongAttempt;
+                }
+
+
+     
+
+            
         
-      }
- //console.log(currentQuestion.marksForWrongAttempt);
+
+
 
     });
 
